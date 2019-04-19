@@ -3,12 +3,11 @@ store.next();
 
 const identity = dispatch => sideEffect => Promise.resolve(dispatch(sideEffect));
 
-onmessage = function ({data: action}) {
+addEventListener('message',  async function ({data: action}) {
   let enhancer = (self.middleware || identity);
-  enhancer(dispatch)(action)
-    .then(result => result.value)
-    .then(postMessage);
-};
+  const results = await enhancer(dispatch)(action);
+  postMessage(results.value);
+});
 
 function dispatch(action) {
   return store.next(action);
@@ -26,5 +25,4 @@ function* createStore() {
     let action = yield state;
     state = self.reducer(state, action);
   }
-
 }
