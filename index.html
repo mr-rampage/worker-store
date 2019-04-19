@@ -1,17 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <script>
-        const store = new Worker('store.js');
-        store.onmessage = e => console.info(e.data);
+<script>
+  const store = new Worker('store.js');
+  store.onmessage = e => console.info(e.data);
 
-        store.postMessage(['reducer.js', {'foo': 'fool'}, 'middleware.js']);
-        store.postMessage({type: '[wikipedia] search', payload: 'bar'});
-    </script>
-</head>
-<body>
-
-</body>
-</html>
+  store.postMessage(['./reducer.js', {'foo': 'fool'}, './middleware.js']);
+  store.postMessage({type: '[wikipedia] search', payload: 'bar'});
+</script>
